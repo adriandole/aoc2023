@@ -2,15 +2,13 @@
 
 module Day2 where
 
+import Common
 import Data.Either
 import Data.Text (Text, pack)
-import Data.Void
 import Text.Megaparsec
 import Text.Megaparsec.Char
 import Text.Megaparsec.Char.Lexer (decimal)
 import Text.Printf
-
-type Parser = Parsec Void Text
 
 data Color = Red Int | Green Int | Blue Int deriving (Eq, Show)
 
@@ -61,21 +59,22 @@ aggStats f a b =
 
 minEachColor :: (Int, [[Color]]) -> GameStats
 minEachColor g =
-  let startStat = GameStats {maxR = 0, maxG = 0, maxB = 0}
-   in let statsPerRound = map (foldl colorToStat startStat) (snd g)
-       in foldl (aggStats max) startStat statsPerRound
+  let
+    startStat = GameStats {maxR = 0, maxG = 0, maxB = 0}
+    statsPerRound = map (foldl colorToStat startStat) (snd g)
+  in
+    foldl (aggStats max) startStat statsPerRound
 
 day2 :: IO ()
 day2 = do
-  f <- readFile "input/day2.txt"
-  let l = map pack (lines f)
+  l <- readTextLines "input/day2.txt"
   let forceParse line = fromRight (error "Parse error") (parse pGame "" line)
   let games = map forceParse l
 
   let validGame g = (maxR stat <= 12) && (maxG stat <= 13) && (maxB stat <= 14)
         where
           stat = minEachColor g
-  let setPower g = (maxR stat) * (maxG stat) * (maxB stat)
+  let setPower g = maxR stat * maxG stat * maxB stat
         where
           stat = minEachColor g
 

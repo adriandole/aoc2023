@@ -9,15 +9,15 @@ convertSpelled :: String -> String
 convertSpelled [] = []
 convertSpelled s =
   let digits = zip [1 ..] ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-   in let matchingSpell = find (\d -> isPrefixOf (snd d) s) digits
-       in case matchingSpell of
-            Just (i, iSpelled) -> show i ++ (convertSpelled $ tail s)
-            Nothing -> head s : convertSpelled (tail s)
+      matchingSpell = find (\d -> snd d `isPrefixOf` s) digits
+   in case matchingSpell of
+        Just (i, iSpelled) -> show i ++ convertSpelled (tail s)
+        Nothing -> head s : convertSpelled (tail s)
 
 calibrationScore :: String -> Int
 calibrationScore line =
   let digitsOnly = filter isDigit line
-   in let n = (head digitsOnly) : [last digitsOnly]
+   in let n = head digitsOnly : [last digitsOnly]
        in read n :: Int
 
 day1 :: IO ()
