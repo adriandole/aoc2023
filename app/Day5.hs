@@ -5,7 +5,6 @@ module Day5 where
 import Common
 import Data.Either
 import Data.List
-import Data.Ord (comparing)
 import Data.Range
 import Data.Text (pack)
 import Text.Megaparsec
@@ -95,6 +94,6 @@ day5 = do
   let (seeds, maps) = fromRight (error "Parse error") (parse pAtlas "day5.txt" (pack f))
   -- parseTest pAtlas (pack f)
   let p1 = minimum $ map (location maps) seeds
-
   let p2 = minLocation $ seedLocations maps seeds
-  print p2
+  printf "Part 1: %d\n" $ p1
+  printf "Part 2: %d\n" $ p2 
