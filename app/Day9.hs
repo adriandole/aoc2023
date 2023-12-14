@@ -5,7 +5,7 @@ import Data.Either (fromRight)
 import Data.List
 import Data.Maybe (isJust)
 import Data.Ord
-import Data.Text (pack)
+import Data.Text (Text)
 import Text.Megaparsec
 import Text.Megaparsec.Char
 import Text.Megaparsec.Char.Lexer (decimal)
@@ -34,9 +34,8 @@ extrapolate xs =
         then 0
         else head xs - extrapolate diff
 
-day9 :: IO ()
-day9 = do
-  f <- readFile "input/day9.txt"
-  let preds = fromRight (error "Parse error") (parse pHist "day9.txt" (pack f))
+day9 :: Text -> IO ()
+day9 f = do
+  let preds = fromRight (error "Parse error") (parse pHist "day9.txt" f)
   printf "Part 1: %d\n" $ sum $ map predict preds
   printf "Part 2: %d\n" $ sum $ map extrapolate preds

@@ -1,5 +1,7 @@
 module Main where
 
+import Control.Lens
+import Data.Text (pack)
 import Day1
 import Day2
 import Day3
@@ -10,17 +12,17 @@ import Day7
 import Day8
 import Day9
 import System.Environment
+import Text.Printf
 
 main = do
   args <- getArgs
-  case args of
-    ["1"] -> day1
-    ["2"] -> day2
-    ["3"] -> day3
-    ["4"] -> day4
-    ["5"] -> day5
-    ["6"] -> day6
-    ["7"] -> day7
-    ["8"] -> day8
-    ["9"] -> day9
-    _ -> putStrLn "Usage: cabal run aoc2023 -- [day #]"
+  let prefix = case args ^? element 1 of
+        Just "test" -> "input/test/day"
+        _  -> "input/day"
+  fs <- readFile $ prefix ++ head args ++ ".txt"
+  let f = pack fs
+  let fns = [day1, day2, day3, day4, day5, day6, day7, day8, day9]
+  let day = read (head args) :: Int
+  case fns ^? element (day - 1) of
+    Just fn -> fn f
+    Nothing -> printf "Day %d not implemented" day

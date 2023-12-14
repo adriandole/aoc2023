@@ -5,7 +5,7 @@ module Day8 where
 import Common
 import Data.Either
 import Data.HashMap.Strict as HashMap (HashMap, fromList, keys, lookup, (!))
-import Data.Text (pack)
+import Data.Text (Text)
 import Text.Megaparsec
 import Text.Megaparsec.Char
 import Text.Printf
@@ -35,9 +35,9 @@ stepsToMatch matcher nodes path steps startNode =
             'R' -> r
        in stepsToMatch matcher nodes (tail path) (steps + 1) next
 
-day8 = do
-  f <- readFile "input/day8.txt"
-  let (path, nodes) = fromRight (error "Parse error") (parse pGraph "day8.txt" (pack f))
+day8 :: Text -> IO ()
+day8 f = do
+  let (path, nodes) = fromRight (error "Parse error") (parse pGraph "day8.txt" f)
   let p1 = stepsToMatch (== "ZZZ") nodes (cycle path) 0 "AAA"
   let steps = map (stepsToMatch (\n -> n !! 2 == 'Z') nodes (cycle path) 0) (filter (\n -> n !! 2 == 'A') (keys nodes))
   let p2 = foldl lcm 1 steps

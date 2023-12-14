@@ -6,7 +6,7 @@ import qualified Data.HashMap.Strict as HashMap
 import qualified Data.HashSet as HashSet
 import Data.Hashable
 import Data.List (nub)
-import Data.Text (pack)
+import Data.Text (Text)
 import Text.Megaparsec
 import Text.Megaparsec.Char
 import Text.Megaparsec.Char.Lexer (decimal)
@@ -70,10 +70,9 @@ ratio set sv = case sv of
           else 0
   _ -> 0
 
-day3 :: IO ()
-day3 = do
-  f <- readFile "input/day3.txt"
-  let grid = fromRight (error "Parse error") (parse pGrid "day3.txt" (pack f))
+day3 :: Text -> IO ()
+day3 f = do
+  let grid = fromRight (error "Parse error") (parse pGrid "day3.txt" f)
   let sset = symbolSet grid
   let nmap = numberMap grid
   let p1 = sum $ map nval $ filter (valid sset) grid

@@ -6,7 +6,7 @@ import Common
 import Data.Either
 import Data.List
 import Data.Range
-import Data.Text (pack)
+import Data.Text (Text)
 import Text.Megaparsec
 import Text.Megaparsec.Char
 import Text.Megaparsec.Char.Lexer (decimal)
@@ -89,9 +89,9 @@ seedLocations maps (start:len:rs) = let
 minLocation :: [RangeI] -> Int
 minLocation locs = minimum $ map rangeStart locs
 
-day5 = do
-  f <- readFile "input/day5.txt"
-  let (seeds, maps) = fromRight (error "Parse error") (parse pAtlas "day5.txt" (pack f))
+day5 :: Text -> IO ()
+day5 f = do
+  let (seeds, maps) = fromRight (error "Parse error") (parse pAtlas "day5.txt" f)
   -- parseTest pAtlas (pack f)
   let p1 = minimum $ map (location maps) seeds
   let p2 = minLocation $ seedLocations maps seeds

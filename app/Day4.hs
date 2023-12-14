@@ -5,7 +5,7 @@ module Day4 where
 import Common
 import Data.Either
 import Data.HashSet (HashSet, fromList, intersection)
-import Data.Text (pack)
+import Data.Text (Text)
 import Text.Megaparsec
 import Text.Megaparsec.Char
 import Text.Megaparsec.Char.Lexer (decimal)
@@ -44,9 +44,9 @@ winN (card : cards) =
   let wonCopies = [drop x cards | x <- [0 .. matches card - 1]]
    in 1 + sum (map winN wonCopies)
 
-day4 = do
-  f <- readFile "input/day4.txt"
-  let cards = fromRight (error "Parse error") (parse pCards "day3.txt" (pack f))
+day4 :: Text -> IO ()
+day4 f = do
+  let cards = fromRight (error "Parse error") (parse pCards "day3.txt" f)
   -- parseTest pCards (pack f)
   let p1 = sum $ map score cards
   let p2 = sum $ [winN (drop x cards) | x <- [0 .. length cards]]

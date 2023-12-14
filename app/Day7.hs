@@ -4,7 +4,7 @@ import Common
 import Data.Either
 import Data.List
 import Data.Ord
-import Data.Text (pack)
+import Data.Text (Text)
 import Text.Megaparsec
 import Text.Megaparsec.Char
 import Text.Megaparsec.Char.Lexer (decimal)
@@ -71,9 +71,9 @@ jCmp h1 h2 = compare (handRankJ h1, cardsRankJ h1) (handRankJ h2, cardsRankJ h2)
 winningsJ :: [Hand] -> Int
 winningsJ hands = sum $ zipWith (*) [1 ..] (map bet $ sortBy jCmp hands)
 
-day7 = do
-  f <- readFile "input/day7.txt"
-  let game = fromRight (error "Parse error") (parse pGame "day7.txt" (pack f))
+day7 :: Text -> IO ()
+day7 f = do
+  let game = fromRight (error "Parse error") (parse pGame "day7.txt" f)
   --   parseTest pGame (pack f)
   printf "Part 1: %d\n" $ winnings game
   printf "Part 2: %d\n" $ winningsJ game

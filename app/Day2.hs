@@ -4,7 +4,7 @@ module Day2 where
 
 import Common
 import Data.Either
-import Data.Text (Text, pack)
+import qualified Data.Text as T
 import Text.Megaparsec
 import Text.Megaparsec.Char
 import Text.Megaparsec.Char.Lexer (decimal)
@@ -65,11 +65,10 @@ minEachColor g =
   in
     foldl (aggStats max) startStat statsPerRound
 
-day2 :: IO ()
-day2 = do
-  l <- readTextLines "input/day2.txt"
+day2 :: T.Text -> IO ()
+day2 f = do
   let forceParse line = fromRight (error "Parse error") (parse pGame "" line)
-  let games = map forceParse l
+  let games = map forceParse (T.lines f)
 
   let validGame g = (maxR stat <= 12) && (maxG stat <= 13) && (maxB stat <= 14)
         where

@@ -2,6 +2,7 @@ module Day1 where
 
 import Data.Char
 import Data.List
+import qualified Data.Text as T
 import Data.Maybe
 import Text.Printf
 
@@ -20,9 +21,8 @@ calibrationScore line =
    in let n = head digitsOnly : [last digitsOnly]
        in read n :: Int
 
-day1 :: IO ()
-day1 = do
-  f <- readFile "input/day1.txt"
-  let l = lines f
+day1 :: T.Text -> IO ()
+day1 f = do
+  let l = lines (T.unpack f)
   printf "Part 1: %d\n" $ sum $ map calibrationScore l
   printf "Part 2: %d\n" $ sum $ map (calibrationScore . convertSpelled) l

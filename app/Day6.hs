@@ -1,4 +1,5 @@
 module Day6 where
+import Data.Text (Text)
 import Text.Printf
 
 data Race = Race {
@@ -12,7 +13,7 @@ r2 = Race 57726992 291117211762026
 wins r held = (held * (t r - held)) > d r
 ways r = length $ filter (wins r) [1..t r]
 
-day6 :: IO ()
-day6 = do
+day6 :: Text -> IO ()
+day6 _ = do
     printf "Part 1: %d\n" $ product $ map ways r1
     printf "Part 2: %d\n" $ ways r2
