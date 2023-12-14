@@ -8,6 +8,7 @@ import Day5
 import Day6
 import Day7
 import Day8
+import Day9
 import System.Environment
 
 main = do
@@ -21,4 +22,5 @@ main = do
     ["6"] -> day6
     ["7"] -> day7
     ["8"] -> day8
+    ["9"] -> day9
     _ -> putStrLn "Usage: cabal run aoc2023 -- [day #]"
